@@ -51,6 +51,7 @@ describe(basename(ConfigSyncPlugin::class), function (): void {
         $composer->allows('getPackage')->andReturn($package);
 
         $io = Mockery::mock(IOInterface::class);
+        $io->allows('writeError')->with(Mockery::any());
 
         $plugin = createPlugin($composer, $io);
 
@@ -85,6 +86,7 @@ describe(basename(ConfigSyncPlugin::class), function (): void {
         $composer->allows('getPackage')->andReturn($package);
 
         $io = Mockery::mock(IOInterface::class);
+        $io->allows('writeError')->with(Mockery::any());
 
         $plugin = createPlugin($composer, $io);
 
