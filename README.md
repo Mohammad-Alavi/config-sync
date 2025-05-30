@@ -3,7 +3,7 @@
       <img src="https://img.shields.io/github/actions/workflow/status/Mohammad-Alavi/config-sync/tests.yaml?label=tests" alt="tests status">
    </a>
    <a href="https://codecov.io/gh/Mohammad-Alavi/config-sync">
-      <img src="https://img.shields.io/codecov/c/github/Mohammad-Alavi/config-sync?token=xxxxxx" alt="code coverage"/>
+      <img src="https://img.shields.io/codecov/c/github/Mohammad-Alavi/config-sync?token=PwdzgNsYm2" alt="code coverage"/>
    </a>
 </p>
 
