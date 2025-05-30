@@ -3,9 +3,7 @@
 declare(strict_types=1);
 
 use Composer\Composer;
-use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
-use Composer\Script\Event;
 use MohammadAlavi\ConfigSync\ConfigSyncPlugin;
 use Symfony\Component\Filesystem\Filesystem;
 
