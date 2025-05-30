@@ -45,7 +45,7 @@ it('generates config-sync.json with defaults and schema pointer', function (): v
     $json = json_decode(file_get_contents($cfg), true, 512, JSON_THROW_ON_ERROR);
 
     expect($json)
-        ->toHaveKey('$schema', 'https://raw.githubusercontent.com/mohammad-alavi/config-sync/main/schema.json')
+        ->toHaveKey('$schema', 'https://github.com/Mohammad-Alavi/config-sync/raw/main/src/config-sync.schema.json')
         ->and($json['paths']['phpunit_cache'] ?? null)->toBe('temp/phpunit');
 
     // --------------------------------------------------------------------
