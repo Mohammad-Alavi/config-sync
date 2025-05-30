@@ -29,7 +29,8 @@ final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterfac
     /**
      * Relative schema URI injected into `config-sync.json` by the init helper.
      */
-    public const SCHEMA_URL = 'vendor/company/config-sync/config-sync.schema.json';
+    //    public const SCHEMA_URL = 'https://github.com/Mohammad-Alavi/config-schema/raw/main/src/config-sync.schema.json';
+    public const SCHEMA_URL = 'vendor/mohammad-alavi/config-sync/config-sync.schema.json';
 
     private Composer $composer;
     private IOInterface $io;
@@ -65,12 +66,12 @@ final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterfac
         /*  php‑cs‑fixer */
         /* ------------------------------------------------------------------ */
         if ($this->hasComposerPkg('friendsofphp/php-cs-fixer')) {
-            $stub = __DIR__ . '/../stubs/.php-cs-fixer.dist.php.stub';
+            $stub = $this->stubPath('.php-cs-fixer.dist.php.stub');
             $dest = $root . '/.php-cs-fixer.dist.php';
 
-            $fs->dumpFile($dest, $this->renderTemplate($stub, [
+            $this->copyStub($stub, $dest, [
                 'PHP_CS_FIXER_CACHE_FILE' => $config['paths']['php_cs_fixer_cache'],
-            ]));
+            ], $fs);
         }
 
         /* ------------------------------------------------------------------ */
@@ -80,7 +81,7 @@ final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterfac
         if (is_file($pkgJsonPath)) {
             $pkg = json_decode(file_get_contents($pkgJsonPath), true);
             if (($pkg['devDependencies']['eslint'] ?? null) !== null) {
-                $fs->copy(__DIR__ . '/../stubs/.eslintrc.json.stub', $root . '/.eslintrc.json', true);
+                $fs->copy($this->stubPath('.eslintrc.json.stub'), $root . '/.eslintrc.json', true);
             }
         }
 
@@ -88,12 +89,12 @@ final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterfac
         /*  PHPUnit */
         /* ------------------------------------------------------------------ */
         if ($this->hasComposerPkg('phpunit/phpunit')) {
-            $stub = __DIR__ . '/../stubs/phpunit.xml.dist.stub';
+            $stub = $this->stubPath('phpunit.xml.dist.stub');
             $dest = $root . '/phpunit.xml.dist';
 
-            $fs->dumpFile($dest, $this->renderTemplate($stub, [
+            $this->copyStub($stub, $dest, [
                 'PHPUNIT_CACHE_DIR' => $config['paths']['phpunit_cache'],
-            ]));
+            ], $fs);
         }
     }
 
@@ -127,6 +128,38 @@ final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterfac
     {
         return InstalledVersions::isInstalled($name)
             || isset($this->composer->getPackage()->getRequires()[$name]);
+    }
+
+    /** Helper for stubs/ directory. */
+    private function stubPath(string $file): string
+    {
+        return $this->packagePath('stubs/' . ltrim($file, '/'));
+    }
+
+    /**
+     * Absolute path to any file inside the package, regardless of where the
+     * package lives in the vendor tree.
+     */
+    private function packagePath(string $relative): string
+    {
+        return realpath(__DIR__ . '/..') . '/' . ltrim($relative, '/');
+    }
+
+    /**
+     * Copy a stub after rendering template vars.  Logs a warning instead of
+     * throwing if the stub is missing.
+     *
+     * @param array<string,string> $vars
+     */
+    private function copyStub(string $stub, string $dest, array $vars, Filesystem $fs): void
+    {
+        if (!is_file($stub)) {
+            $this->io->writeError('<warning>Stub missing: ' . $stub . '</warning>');
+
+            return;
+        }
+
+        $fs->dumpFile($dest, $this->renderTemplate($stub, $vars));
     }
 
     /**
