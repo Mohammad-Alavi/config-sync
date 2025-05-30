@@ -5,26 +5,16 @@ declare(strict_types=1);
 
 use MohammadAlavi\ConfigSync\ConfigSyncPlugin;
 
-// ---------------------------------------------------------------------
-//  Locate Composer's autoloader no matter where this package sits.
-// ---------------------------------------------------------------------
-$autoloadCandidates = [
-    // 1. When executed from vendor/bin <symlink>
-    __DIR__ . '/../../../autoload.php',          // project‑root/vendor/autoload.php
-
-    // 2. When executed inside the package repo itself (dev‑mode)
-    __DIR__ . '/../vendor/autoload.php',         // package‑root/vendor/autoload.php
-];
-
-foreach ($autoloadCandidates as $candidate) {
-    if (file_exists($candidate)) {
-        require $candidate;
-        break;
-    }
+// Load config-sync.json content as array
+$configFile = __DIR__ . '/../config-sync.json';
+if (!file_exists($configFile)) {
+    fwrite(STDERR, "config-sync.json not found.\n");
+    exit(1);
 }
 
-if (!class_exists(ConfigSyncPlugin::class)) {
-    fwrite(STDERR, "Unable to locate Composer autoload.php — aborting.\n");
+$config = json_decode(file_get_contents($configFile), true, 512, JSON_THROW_ON_ERROR);
+if (is_null($config)) {
+    fwrite(STDERR, "Invalid JSON in config-sync.json\n");
     exit(1);
 }
 
@@ -39,16 +29,9 @@ if (file_exists($target)) {
     exit(1);
 }
 
-$config = ConfigSyncPlugin::DEFAULT_CONFIG;
-$schemaRelative = ConfigSyncPlugin::SCHEMA_URL;
-
-$output = array_merge([
-    '$schema' => $schemaRelative,
-], $config);
-
 file_put_contents(
     $target,
-    json_encode($output, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL,
+    json_encode($config, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL,
 );
 
 echo "Created config-sync.json with default values. You can now override whatever you need.\n";
