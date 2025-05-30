@@ -21,7 +21,7 @@ final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterfac
 
     public function __construct()
     {
-        $configPath = __DIR__ . '/../config-sync.json'; // Adjust path accordingly
+        $configPath = __DIR__ . '/config-sync.json'; // Adjust path accordingly
         if (!file_exists($configPath)) {
             throw new \RuntimeException('config-sync.json file not found.');
         }
