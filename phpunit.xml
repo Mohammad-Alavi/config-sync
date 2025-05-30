@@ -7,13 +7,13 @@
 >
     <testsuites>
         <testsuite name="Unit">
-            <directory>app/Unit</directory>
+            <directory>src/Unit</directory>
             <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
     <source>
         <include>
-            <directory>app</directory>
+            <directory>src</directory>
         </include>
     </source>
     <php>

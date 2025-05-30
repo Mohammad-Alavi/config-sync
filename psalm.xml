@@ -10,7 +10,7 @@
     cacheDirectory="./psalm_cache"
 >
     <projectFiles>
-        <directory name="app"/>
+        <directory name="src"/>
         <ignoreFiles>
             <directory name="vendor"/>
             <directory name="node_modules"/>
