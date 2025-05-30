@@ -1,0 +1,13 @@
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon
+    - vendor/nesbot/carbon/extension.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+parameters:
+	level: max
+	paths:
+		- src
+		- tests
+		- .php-cs-fixer.dist.php
+	tmpDir: phpstan_cache
+
