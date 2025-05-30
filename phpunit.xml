@@ -7,7 +7,6 @@
 >
     <testsuites>
         <testsuite name="Unit">
-            <directory>src/Unit</directory>
             <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
