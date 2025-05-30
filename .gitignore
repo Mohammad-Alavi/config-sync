@@ -1,10 +1,6 @@
 /.idea
 /vendor
-/psalm_cache
-/phpstan_cache
-/.phpunit.cache
+/cache
 .DS_Store
 .phpstorm.meta.php
-.phpunit.result.cache
-.php-cs-fixer.cache
 
