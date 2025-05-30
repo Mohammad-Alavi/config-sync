@@ -28,10 +28,6 @@ final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterfac
 
         $json = file_get_contents($configPath);
         $this->config = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-
-        if (is_null($this->config)) {
-            throw new \RuntimeException('Invalid JSON in config-sync.json');
-        }
     }
 
     /* --------------------------------------------------------------------- */
@@ -69,7 +65,7 @@ final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterfac
             $dest = $root . '/.php-cs-fixer.dist.php';
 
             $this->copyStub($stub, $dest, [
-                'PHP_CS_FIXER_CACHE_FILE' => $config['paths']['php_cs_fixer_cache'],
+                'PHP_CS_FIXER_CACHE_FILE' => $config['php_cs_fixer']['cache_file'],
             ], $fs);
         }
 
@@ -78,8 +74,8 @@ final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterfac
         /* ------------------------------------------------------------------ */
         $pkgJsonPath = $root . '/package.json';
         if (is_file($pkgJsonPath)) {
-            $pkg = json_decode(file_get_contents($pkgJsonPath), true);
-            if (($pkg['devDependencies']['eslint'] ?? null) !== null) {
+            $pkg = json_decode(file_get_contents($pkgJsonPath), true, 512, JSON_THROW_ON_ERROR);
+            if (!is_null($pkg['devDependencies']['eslint'] ?? null)) {
                 $fs->copy($this->stubPath('.eslintrc.json.stub'), $root . '/.eslintrc.json', true);
             }
         }
@@ -92,7 +88,7 @@ final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterfac
             $dest = $root . '/phpunit.xml.dist';
 
             $this->copyStub($stub, $dest, [
-                'PHPUNIT_CACHE_DIR' => $config['paths']['phpunit_cache'],
+                'PHPUNIT_CACHE_DIR' => $config['phpunit']['cache_dir'],
             ], $fs);
         }
     }
