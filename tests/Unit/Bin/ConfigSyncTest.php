@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use MohammadAlavi\ConfigSync\ConfigSyncPlugin;
-
 it('generates config-sync.json with defaults and schema pointer', function (): void {
     // --------------------------------------------------------------------
     //  Arrange: create a truly isolated playground in the system tmp dir
@@ -47,7 +45,7 @@ it('generates config-sync.json with defaults and schema pointer', function (): v
     $json = json_decode(file_get_contents($cfg), true, 512, JSON_THROW_ON_ERROR);
 
     expect($json)
-        ->toHaveKey('$schema', ConfigSyncPlugin::SCHEMA_URL)
+        ->toHaveKey('$schema', 'https://raw.githubusercontent.com/mohammad-alavi/config-sync/main/schema.json')
         ->and($json['paths']['phpunit_cache'] ?? null)->toBe('temp/phpunit');
 
     // --------------------------------------------------------------------
