@@ -42,9 +42,6 @@
             "php-cs-fixer fix"
         ]
     },
-    "extra": {
-        "class": "MohammadAlavi\\ConfigSync\\ConfigSyncPlugin"
-    },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
