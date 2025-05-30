@@ -37,13 +37,22 @@
             "MohammadAlavi\\ConfigSync\\": "src/"
         }
     },
+    "scripts": {
+        "fixer": [
+            "php-cs-fixer fix"
+        ]
+    },
     "extra": {
         "class": "MohammadAlavi\\ConfigSync\\ConfigSyncPlugin"
     },
-    "minimum-stability": "stable",
     "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
-    }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
