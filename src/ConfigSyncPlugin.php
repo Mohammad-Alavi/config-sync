@@ -5,14 +5,13 @@ namespace MohammadAlavi\ConfigSync;
 use Composer\Composer;
 use Composer\InstalledVersions;
 use Composer\IO\IOInterface;
-use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Composer plugin that keeps project‑wide tooling configs in sync.
  */
-final class ConfigSyncPlugin implements PluginInterface
+final class ConfigSyncPlugin
 {
     private array $config;
     private Composer $composer;
