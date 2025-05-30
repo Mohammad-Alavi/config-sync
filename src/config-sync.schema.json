@@ -1,0 +1,60 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/Mohammad-Alavi/config-schema/raw/main/src/config-sync.schema.json",
+    "title": "Config‑Sync Configuration",
+    "description": "Defines all overridable values used by the Config‑Sync Composer plugin.",
+    "type": "object",
+    "properties": {
+        "phpunit": {
+            "type": "object",
+            "description": "PHPUnit‑specific overrides.",
+            "properties": {
+                "cache_dir": {
+                    "type": "string",
+                    "description": "Relative path to the PHPUnit cache directory (e.g. \"temp/phpunit\")."
+                }
+            },
+            "additionalProperties": false
+        },
+        "php_cs_fixer": {
+            "type": "object",
+            "description": "PHP‑CS‑Fixer specific overrides.",
+            "properties": {
+                "cache_file": {
+                    "type": "string",
+                    "description": "Path to the fixer cache file (e.g. \"temp/.php-cs-fixer.cache\")."
+                }
+            },
+            "additionalProperties": false
+        },
+        "paths": {
+            "type": "object",
+            "description": "General paths used by the plugin.",
+            "properties": {
+                "source": {
+                    "type": "string",
+                    "description": "Directory inside the project that contains application source code (e.g. \"src\" or \"app\")."
+                },
+                "stubs": {
+                    "type": "string",
+                    "description": "Directory containing stub templates inside the package (defaults to \"stubs\")."
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "additionalProperties": false,
+    "examples": [
+        {
+            "phpunit": {
+                "cache_dir": "storage/cache/phpunit"
+            },
+            "php_cs_fixer": {
+                "cache_file": "storage/.php-cs-fixer.cache"
+            },
+            "paths": {
+                "source": "app"
+            }
+        }
+    ]
+}
