@@ -51,7 +51,7 @@ describe(basename(ConfigSync::class), function (): void {
 
         expect(file_exists($this->tmpDir . '/.php-cs-fixer.dist.php'))->toBeTrue()
             ->and(file_get_contents($this->tmpDir . '/.php-cs-fixer.dist.php'))
-            ->toBe(file_get_contents(dirname(__DIR__, 2) . '/stubs/.php-cs-fixer.dist.php.stub'));
+            ->toBe(file_get_contents(dirname(__DIR__, 2) . '/.php-cs-fixer.dist.php'));
     });
 
     it('copies eslint stub when package.json contains eslint devDependency', function (): void {
@@ -66,7 +66,7 @@ describe(basename(ConfigSync::class), function (): void {
 
         expect(file_exists($this->tmpDir . '/.eslintrc.json'))->toBeTrue()
             ->and(file_get_contents($this->tmpDir . '/.eslintrc.json'))
-            ->toBe(file_get_contents(dirname(__DIR__, 2) . '/stubs/.eslintrc.json.stub'));
+            ->toBe(file_get_contents(dirname(__DIR__, 2) . '/.eslintrc.json'));
     });
 
     function extracted(): void
