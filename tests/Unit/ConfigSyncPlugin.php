@@ -36,7 +36,7 @@ beforeEach(function (): void {
     if (!is_dir($stubDir) && !mkdir($stubDir, 0777, true) && !is_dir($stubDir)) {
         throw new RuntimeException(sprintf('Directory "%s" was not created', $stubDir));
     }
-    file_put_contents($stubDir . '/php-cs-fixer.dist.php', "<?php // stub\n");
+    file_put_contents($stubDir . '/.php-cs-fixer.dist.php', "<?php // stub\n");
     file_put_contents($stubDir . '/.eslintrc.cjs', "{}\n");
 });
 
@@ -46,9 +46,9 @@ afterEach(function (): void {
     Mockery::close();
 });
 
-it('copies php-cs-fixer stub when the package is required', function (): void {
+it('copies .php-cs-fixer stub when the package is required', function (): void {
     $package = Mockery::mock(PackageInterface::class);
-    $package->allows('getRequires')->andReturn(['friendsofphp/php-cs-fixer' => true]);
+    $package->allows('getRequires')->andReturn(['friendsofphp/.php-cs-fixer' => true]);
 
     $composer = Mockery::mock(Composer::class);
     $composer->allows('getPackage')->andReturn($package);
