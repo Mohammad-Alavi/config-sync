@@ -37,7 +37,7 @@ beforeEach(function (): void {
         throw new RuntimeException(sprintf('Directory "%s" was not created', $stubDir));
     }
     file_put_contents($stubDir . '/.php-cs-fixer.dist.php', "<?php // stub\n");
-    file_put_contents($stubDir . '/.eslintrc.cjs', "{}\n");
+    file_put_contents($stubDir . '/.eslintrc.json', "{}\n");
 });
 
 afterEach(function (): void {
@@ -72,7 +72,7 @@ it('copies eslint stub when package.json contains eslint devDependency', functio
 
     extracted();
 
-    expect(file_exists($this->tmpDir . '/.eslintrc.cjs'))->toBeTrue();
+    expect(file_exists($this->tmpDir . '/.eslintrc.json'))->toBeTrue();
 });
 
 function extracted(): void
