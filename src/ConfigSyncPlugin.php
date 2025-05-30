@@ -44,7 +44,7 @@ final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterfac
         if (is_file($pkgJsonPath)) {
             $pkgJson = json_decode(file_get_contents($pkgJsonPath), true, 512, JSON_THROW_ON_ERROR);
             if (!is_null($pkgJson['devDependencies']['eslint'] ?? null)) {
-                $fs->copy(__DIR__ . '/../stubs/.eslintrc.cjs', $root . '/.eslintrc.cjs', true);
+                $fs->copy(__DIR__ . '/../stubs/.eslintrc.json', $root . '/.eslintrc.json', true);
             }
         }
     }
