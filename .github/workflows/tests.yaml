@@ -44,9 +44,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install npm dependencies
-        run: npm install
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
