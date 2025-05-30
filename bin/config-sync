@@ -6,7 +6,7 @@ declare(strict_types=1);
 use MohammadAlavi\ConfigSync\ConfigSyncPlugin;
 
 // Load config-sync.json content as array
-$configFile = __DIR__ . '/../config-sync.json';
+$configFile = __DIR__ . '/../src/config-sync.json';
 if (!file_exists($configFile)) {
     fwrite(STDERR, "config-sync.json not found.\n");
     exit(1);
