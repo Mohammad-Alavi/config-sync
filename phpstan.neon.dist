@@ -9,5 +9,5 @@ parameters:
 		- src
 		- tests
 		- .php-cs-fixer.dist.php
-	tmpDir: cache/phpstan_cache
+	tmpDir: temp/phpstan_cache
 
