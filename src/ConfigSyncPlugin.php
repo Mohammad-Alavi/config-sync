@@ -36,7 +36,7 @@ final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterfac
 
         // Example rule: only drop php-cs-fixer stub if the fixer is required
         if ($this->hasComposerPkg('friendsofphp/php-cs-fixer')) {
-            $fs->copy(__DIR__ . '/../stubs/php-cs-fixer.dist.php', $root . '/.php-cs-fixer.dist.php', true);
+            $fs->copy(__DIR__ . '/../stubs/.php-cs-fixer.dist.php', $root . '/.php-cs-fixer.dist.php', true);
         }
 
         // Example rule: only drop ESLint stub if npm has eslint
