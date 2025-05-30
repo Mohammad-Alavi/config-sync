@@ -7,7 +7,7 @@ use MohammadAlavi\ConfigSync\ConfigSyncPlugin;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$root   = getcwd();
+$root = getcwd();
 $target = $root . '/config-sync.json';
 
 if (file_exists($target)) {
@@ -27,7 +27,7 @@ $output = array_merge([
 
 file_put_contents(
     $target,
-    json_encode($output, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL
+    json_encode($output, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL,
 );
 
 echo "Created config-sync.json with default values. You can now override whatever you need.\n";
