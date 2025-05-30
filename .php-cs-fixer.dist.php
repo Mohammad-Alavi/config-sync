@@ -7,10 +7,7 @@ $finder = Finder::create()
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ])
-    ->name('*.php')
-    ->notName('*.blade.php')
-    ->exclude('Containers/Vendor')
-    ->notName('_*');
+    ->name('*.php');
 
 return (new PhpCsFixer\Config())
     ->setRules([
