@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 use Composer\Composer;
-use MohammadAlavi\ConfigSync\ConfigSyncPlugin;
+use MohammadAlavi\ConfigSync\ConfigSync;
 
 $command = $argv[1] ?? null;
 
@@ -25,7 +25,7 @@ foreach ($autoloadCandidates as $path) {
 switch ($command) {
     case 'sync':
         // Instantiate your ConfigSyncPlugin or SyncManager
-        $syncer = new ConfigSyncPlugin(new Composer());
+        $syncer = new ConfigSync(new Composer());
         $syncer->sync();
         break;
 
