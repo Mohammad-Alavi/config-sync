@@ -3,19 +3,17 @@
 declare(strict_types=1);
 
 use Composer\Composer;
-use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
-use Composer\Script\Event;
-use MohammadAlavi\ConfigSync\ConfigSyncPlugin;
+use MohammadAlavi\ConfigSync\ConfigSync;
 use Symfony\Component\Filesystem\Filesystem;
 
-describe(basename(ConfigSyncPlugin::class), function (): void {
+describe(basename(ConfigSync::class), function (): void {
     /**
      * Helper to activate the plugin with mocked Composer + IO.
      */
-    function createPlugin(Mockery\MockInterface $composer): ConfigSyncPlugin
+    function createPlugin(Mockery\MockInterface $composer): ConfigSync
     {
-        return new ConfigSyncPlugin($composer);
+        return new ConfigSync($composer);
     }
 
     beforeEach(function (): void {
@@ -28,7 +26,7 @@ describe(basename(ConfigSyncPlugin::class), function (): void {
         chdir($this->tmpDir);
 
         // Ensure stub files exist next to the plugin source (src/../stubs)
-        $stubDir = dirname((new ReflectionClass(ConfigSyncPlugin::class))->getFileName(), 2) . '/stubs';
+        $stubDir = dirname((new ReflectionClass(ConfigSync::class))->getFileName(), 2) . '/stubs';
         if (!is_dir($stubDir) && !mkdir($stubDir, 0777, true) && !is_dir($stubDir)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $stubDir));
         }
@@ -90,4 +88,4 @@ describe(basename(ConfigSyncPlugin::class), function (): void {
 
         expect(true)->toBeTrue();
     });
-})->covers(ConfigSyncPlugin::class);
+})->covers(ConfigSync::class);
