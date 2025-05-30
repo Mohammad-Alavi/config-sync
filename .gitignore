@@ -1,6 +1,6 @@
 /.idea
 /vendor
-/cache
+/temp
 .DS_Store
 .phpstorm.meta.php
 
