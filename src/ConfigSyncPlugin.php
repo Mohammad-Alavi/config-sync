@@ -4,8 +4,6 @@ namespace MohammadAlavi\ConfigSync;
 
 use Composer\Composer;
 use Composer\InstalledVersions;
-use Composer\IO\IOInterface;
-use Composer\Script\Event;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -14,11 +12,10 @@ use Symfony\Component\Filesystem\Filesystem;
 final class ConfigSyncPlugin
 {
     private array $config;
-    private Composer $composer;
-    private IOInterface $io;
 
-    public function __construct()
-    {
+    public function __construct(
+        private Composer $composer,
+    ) {
         $configPath = __DIR__ . '/config-sync.json'; // Adjust path accordingly
         if (!file_exists($configPath)) {
             throw new \RuntimeException('config-sync.json file not found.');
@@ -28,16 +25,15 @@ final class ConfigSyncPlugin
         $this->config = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
     }
 
-    public function activate(Composer $composer, IOInterface $io): void
+    public function activate(Composer $composer): void
     {
         $this->composer = $composer;
-        $this->io = $io;
     }
 
     /**
      * Copy / render every stub that applies to the current project.
      */
-    public function sync(Event $event): void
+    public function sync(): void
     {
         $root = getcwd();
         $fs = new Filesystem();
@@ -97,7 +93,7 @@ final class ConfigSyncPlugin
                     $this->config = array_replace_recursive($this->config, $user);
                 }
             } catch (\JsonException $e) {
-                $this->io->writeError('<warning>config-sync.json is invalid – ' . $e->getMessage() . '</warning>');
+                fwrite(STDERR, "Warning: config-sync.json is invalid – {$e->getMessage()}\n");
             }
         }
 
@@ -134,7 +130,7 @@ final class ConfigSyncPlugin
     private function copyStub(string $stub, string $dest, array $vars, Filesystem $fs): void
     {
         if (!is_file($stub)) {
-            $this->io->writeError('<warning>Stub missing: ' . $stub . '</warning>');
+            fwrite(STDERR, "Warning: Stub missing: {$stub}\n");
 
             return;
         }
