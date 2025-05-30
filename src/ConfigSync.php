@@ -9,7 +9,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Composer plugin that keeps project‑wide tooling configs in sync.
  */
-final class ConfigSyncPlugin
+final class ConfigSync
 {
     private array $config;
 
