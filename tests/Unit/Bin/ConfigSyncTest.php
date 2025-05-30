@@ -46,7 +46,8 @@ it('generates config-sync.json with defaults and schema pointer', function (): v
 
     expect($json)
         ->toHaveKey('$schema', 'https://github.com/Mohammad-Alavi/config-sync/raw/main/src/config-sync.schema.json')
-        ->and($json['paths']['phpunit_cache'] ?? null)->toBe('temp/phpunit');
+        ->and($json['paths']['source'] ?? null)->toBe('src')
+        ->and($json['paths']['stubs'] ?? null)->toBe('stubs');
 
     // --------------------------------------------------------------------
     //  Assert: second run stops with exit‑code 1 because file already exists
