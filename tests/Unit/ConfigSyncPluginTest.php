@@ -13,12 +13,9 @@ describe(basename(ConfigSyncPlugin::class), function (): void {
     /**
      * Helper to activate the plugin with mocked Composer + IO.
      */
-    function createPlugin(Mockery\MockInterface $composer, Mockery\MockInterface $io): ConfigSyncPlugin
+    function createPlugin(Mockery\MockInterface $composer): ConfigSyncPlugin
     {
-        $plugin = new ConfigSyncPlugin();
-        $plugin->activate($composer, $io);
-
-        return $plugin;
+        return new ConfigSyncPlugin($composer);
     }
 
     beforeEach(function (): void {
@@ -50,12 +47,9 @@ describe(basename(ConfigSyncPlugin::class), function (): void {
         $composer = Mockery::mock(Composer::class);
         $composer->allows('getPackage')->andReturn($package);
 
-        $io = Mockery::mock(IOInterface::class);
-        $io->allows('writeError')->with(Mockery::any());
+        $plugin = createPlugin($composer);
 
-        $plugin = createPlugin($composer, $io);
-
-        $plugin->sync(new Event('post-install-cmd', $composer, $io, false));
+        $plugin->sync();
 
         expect(file_exists($this->tmpDir . '/.php-cs-fixer.dist.php'))->toBeTrue()
             ->and(file_get_contents($this->tmpDir . '/.php-cs-fixer.dist.php'))
@@ -85,13 +79,10 @@ describe(basename(ConfigSyncPlugin::class), function (): void {
         $composer = Mockery::mock(Composer::class);
         $composer->allows('getPackage')->andReturn($package);
 
-        $io = Mockery::mock(IOInterface::class);
-        $io->allows('writeError')->with(Mockery::any());
-
-        $plugin = createPlugin($composer, $io);
+        $plugin = createPlugin($composer);
 
         // Should complete without exceptions
-        $plugin->sync(new Event('post-install-cmd', $composer, $io, false));
+        $plugin->sync();
     }
 
     it('does not throw if package.json is absent', function (): void {
