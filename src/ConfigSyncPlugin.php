@@ -15,25 +15,24 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterface
 {
-    /**
-     * Default values consumed by the stub templates.
-     * Users may override these inside their root `config-sync.json`.
-     */
-    public const DEFAULT_CONFIG = [
-        'paths' => [
-            'phpunit_cache' => 'temp/phpunit',                // <PHPUNIT_CACHE_DIR>
-            'php_cs_fixer_cache' => "__DIR__ . '/temp/.php-cs-fixer.cache'",    // <PHP_CS_FIXER_CACHE_FILE>
-        ],
-    ];
-
-    /**
-     * Relative schema URI injected into `config-sync.json` by the init helper.
-     */
-    //    public const SCHEMA_URL = 'https://github.com/Mohammad-Alavi/config-schema/raw/main/src/config-sync.schema.json';
-    public const SCHEMA_URL = 'vendor/mohammad-alavi/config-sync/config-sync.schema.json';
-
+    private array $config;
     private Composer $composer;
     private IOInterface $io;
+
+    public function __construct()
+    {
+        $configPath = __DIR__ . '/../config-sync.json'; // Adjust path accordingly
+        if (!file_exists($configPath)) {
+            throw new \RuntimeException('config-sync.json file not found.');
+        }
+
+        $json = file_get_contents($configPath);
+        $this->config = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+
+        if (is_null($this->config)) {
+            throw new \RuntimeException('Invalid JSON in config-sync.json');
+        }
+    }
 
     /* --------------------------------------------------------------------- */
     /*  Composer lifecycle */
@@ -107,21 +106,20 @@ final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterfac
      */
     private function loadConfig(string $root): array
     {
-        $config = self::DEFAULT_CONFIG;
         $userFile = $root . '/config-sync.json';
 
         if (is_file($userFile)) {
             try {
                 $user = json_decode(file_get_contents($userFile), true, 512, JSON_THROW_ON_ERROR);
                 if (is_array($user)) {
-                    $config = array_replace_recursive($config, $user);
+                    $this->config = array_replace_recursive($this->config, $user);
                 }
             } catch (\JsonException $e) {
                 $this->io->writeError('<warning>config-sync.json is invalid – ' . $e->getMessage() . '</warning>');
             }
         }
 
-        return $config;
+        return $this->config;
     }
 
     private function hasComposerPkg(string $name): bool
