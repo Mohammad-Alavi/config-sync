@@ -5,33 +5,64 @@ declare(strict_types=1);
 
 use MohammadAlavi\ConfigSync\ConfigSyncPlugin;
 
-// Load config-sync.json content as array
-$configFile = __DIR__ . '/../src/config-sync.json';
-if (!file_exists($configFile)) {
-    fwrite(STDERR, "config-sync.json not found.\n");
-    exit(1);
+$command = $argv[1] ?? null;
+
+$autoloadCandidates = [
+    // vendor/bin -> vendor/<vendor>/config-sync/bin
+    __DIR__ . '/../../../autoload.php',
+    // running inside the package repo itself
+    __DIR__ . '/../vendor/autoload.php',
+];
+
+foreach ($autoloadCandidates as $path) {
+    if (file_exists($path)) {
+        require $path;
+        break;
+    }
 }
 
-$config = json_decode(file_get_contents($configFile), true, 512, JSON_THROW_ON_ERROR);
-if (is_null($config)) {
-    fwrite(STDERR, "Invalid JSON in config-sync.json\n");
-    exit(1);
+switch ($command) {
+    case 'sync':
+        // Instantiate your ConfigSyncPlugin or SyncManager
+        $syncer = new ConfigSyncPlugin();
+        $syncer->runSync();
+        break;
+
+    case 'init':
+        // Load config-sync.json content as array
+        $configFile = __DIR__ . '/../src/config-sync.json';
+        if (!file_exists($configFile)) {
+            fwrite(STDERR, "config-sync.json not found.\n");
+            exit(1);
+        }
+
+        $config = json_decode(file_get_contents($configFile), true, 512, JSON_THROW_ON_ERROR);
+        if (is_null($config)) {
+            fwrite(STDERR, "Invalid JSON in config-sync.json\n");
+            exit(1);
+        }
+
+        // ---------------------------------------------------------------------
+        //  Generate config‑sync.json with defaults (unless it already exists)
+        // ---------------------------------------------------------------------
+        $root = getcwd();
+        $target = $root . '/config-sync.json';
+
+        if (file_exists($target)) {
+            fwrite(STDERR, "config-sync.json already exists — aborting.\n");
+            exit(1);
+        }
+
+        file_put_contents(
+            $target,
+            json_encode($config, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL,
+        );
+
+        echo "Created config-sync.json with default values. You can now override whatever you need.\n";
+
+        break;
+
+    default:
+        echo "Usage: php config-sync [sync|init]\n";
+        exit(1);
 }
-
-// ---------------------------------------------------------------------
-//  Generate config‑sync.json with defaults (unless it already exists)
-// ---------------------------------------------------------------------
-$root = getcwd();
-$target = $root . '/config-sync.json';
-
-if (file_exists($target)) {
-    fwrite(STDERR, "config-sync.json already exists — aborting.\n");
-    exit(1);
-}
-
-file_put_contents(
-    $target,
-    json_encode($config, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL,
-);
-
-echo "Created config-sync.json with default values. You can now override whatever you need.\n";
