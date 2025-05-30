@@ -7,7 +7,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-    cacheDirectory="./psalm_cache"
+    cacheDirectory="/temp/psalm_cache"
 >
     <projectFiles>
         <directory name="src"/>
@@ -18,7 +18,6 @@
     </projectFiles>
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
-        <pluginClass class="Psalm\LaravelPlugin\Plugin"/>
         <pluginClass class="Psalm\MockeryPlugin\Plugin"/>
         <pluginClass class="Psl\Psalm\Plugin"/>
     </plugins>
