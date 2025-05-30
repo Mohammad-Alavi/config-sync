@@ -3,7 +3,6 @@
 namespace MohammadAlavi\ConfigSync;
 
 use Composer\Composer;
-use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\InstalledVersions;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
@@ -13,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Composer plugin that keeps project‑wide tooling configs in sync.
  */
-final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterface
+final class ConfigSyncPlugin implements PluginInterface
 {
     private array $config;
     private Composer $composer;
@@ -28,18 +27,6 @@ final class ConfigSyncPlugin implements PluginInterface, EventSubscriberInterfac
 
         $json = file_get_contents($configPath);
         $this->config = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-    }
-
-    /* --------------------------------------------------------------------- */
-    /*  Composer lifecycle */
-    /* --------------------------------------------------------------------- */
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            'post-install-cmd' => 'sync',
-            'post-update-cmd' => 'sync',
-        ];
     }
 
     public function activate(Composer $composer, IOInterface $io): void
