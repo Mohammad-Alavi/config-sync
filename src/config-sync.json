@@ -1,3 +1,7 @@
 {
-    "$schema": "https://github.com/Mohammad-Alavi/config-schema/raw/main/src/config-sync.schema.json"
+    "$schema": "https://github.com/Mohammad-Alavi/config-sync/raw/main/src/config-sync.schema.json",
+    "paths": {
+        "phpunit_cache": "temp/phpunit",
+        "php_cs_fixer_cache": "__DIR__ . '/temp/.php-cs-fixer.cache'"
+    }
 }
