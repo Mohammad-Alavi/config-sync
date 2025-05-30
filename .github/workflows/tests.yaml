@@ -69,7 +69,7 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: mohammad-alavi/config-sync
+          slug: Mohammad-Alavi/config-sync
           files: coverage.xml
           fail_ci_if_error: true
           verbose: true
