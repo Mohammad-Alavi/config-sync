@@ -10,17 +10,11 @@
             "description": "PHP‑CS‑Fixer specific overrides.",
             "properties": {
                 "in": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
+                    "type": "string",
                     "description": "List of directories to be fixed by PHP‑CS‑Fixer (e.g. [\"src\", \"tests\"])."
                 },
                 "notName": {
-                    "type": ["array", "string"],
-                    "items": {
-                        "type": "string"
-                    },
+                    "type": "string",
                     "description": "List of file names to be ignored by PHP‑CS‑Fixer (e.g. [\".php-cs-fixer.php\"]). If set to `false`, no files will be ignored."
                 }
             },
