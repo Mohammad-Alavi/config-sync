@@ -57,7 +57,8 @@ final class Sync extends BaseCommand
             $dest = $root . '/.php-cs-fixer.dist.php';
 
             $this->copyStub($stub, $dest, [
-                'PHP_CS_FIXER_CACHE_FILE' => $config['php_cs_fixer']['cache_file'],
+                'PHP_CS_FIXER_IN' => $config['phpCsFixer']['in'],
+                'PHP_CS_FIXER_NOT_NAME' => $config['phpCsFixer']['notName'],
             ], $fs);
         }
 
@@ -158,7 +159,9 @@ final class Sync extends BaseCommand
         $content = file_get_contents($stubPath);
 
         foreach ($vars as $key => $value) {
-            $content = str_replace('{{' . strtoupper($key) . '}}', $value, $content);
+            if ('_SKIP_' !== $value) {
+                $content = str_replace('{{' . strtoupper($key) . '}}', $value, $content);
+            }
         }
 
         return $content;
