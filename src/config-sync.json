@@ -1,14 +1,8 @@
 {
     "$schema": "https://github.com/Mohammad-Alavi/config-sync/raw/main/src/config-sync.schema.json",
     "phpCsFixer": {
-        "in": [
-            "__DIR__ . '/src'",
-            "__DIR__ . '/tests'"
-        ],
-        "notName": [
-            "'*.blade.php'",
-            "'_*'"
-        ]
+        "in": "[__DIR__ . '/src', __DIR__ . '/tests']",
+        "notName": "['*.blade.php', '_*']"
     },
     "phpunit": {
         "cache_dir": "temp/phpunit"
