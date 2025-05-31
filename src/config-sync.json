@@ -1,13 +1,16 @@
 {
     "$schema": "https://github.com/Mohammad-Alavi/config-sync/raw/main/src/config-sync.schema.json",
-    "php_cs_fixer": {
-        "cache_file": "__DIR__ . '/temp/.php-cs-fixer.cache'"
+    "phpCsFixer": {
+        "in": [
+            "__DIR__ . '/src'",
+            "__DIR__ . '/tests'"
+        ],
+        "notNames": [
+            "'*.blade.php'",
+            "'_*'"
+        ]
     },
     "phpunit": {
         "cache_dir": "temp/phpunit"
-    },
-    "paths": {
-        "source": "src",
-        "stubs": "stubs"
     }
 }
