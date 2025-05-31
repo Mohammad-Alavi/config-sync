@@ -16,7 +16,7 @@
                     },
                     "description": "List of directories to be fixed by PHP‑CS‑Fixer (e.g. [\"src\", \"tests\"])."
                 },
-                "notNames": {
+                "notName": {
                     "type": ["array", "string"],
                     "items": {
                         "type": "string"
