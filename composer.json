@@ -42,6 +42,11 @@
             "MohammadAlavi\\ConfigSync\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "scripts": {
         "fixer": [
             "php-cs-fixer fix"
@@ -55,6 +60,6 @@
             "pestphp/pest-plugin": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }
