@@ -6,22 +6,11 @@ declare(strict_types=1);
 use Composer\Composer;
 use MohammadAlavi\ConfigSync\ConfigSync;
 
+include $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
+
+$binDir = $_composer_bin_dir ?? __DIR__ . '/../vendor/bin';
+
 $command = $argv[1] ?? null;
-
-$autoloadCandidates = [
-    // vendor/bin -> vendor/<vendor>/config-sync/bin
-    __DIR__ . '/../../../autoload.php',
-    // running inside the package repo itself
-    __DIR__ . '/../vendor/autoload.php',
-];
-
-foreach ($autoloadCandidates as $path) {
-    if (file_exists($path)) {
-        require $path;
-        break;
-    }
-}
-
 switch ($command) {
     case 'sync':
         // Instantiate your ConfigSyncPlugin or SyncManager
