@@ -1,6 +1,6 @@
 <?php
 
-namespace MohammadAlavi\ConfigSync;
+namespace MohammadAlavi\ConfigSync\Commands;
 
 use Composer\Command\BaseCommand;
 use Composer\InstalledVersions;
@@ -11,14 +11,14 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Composer plugin that keeps project‑wide tooling configs in sync.
  */
-final class Command extends BaseCommand
+final class Sync extends BaseCommand
 {
     private array $config;
 
     public function __construct()
     {
         parent::__construct();
-        $configPath = __DIR__ . '/config-sync.json'; // Adjust path accordingly
+        $configPath = __DIR__ . '/../config-sync.json';
         if (!file_exists($configPath)) {
             throw new \RuntimeException('config-sync.json file not found.');
         }
@@ -104,7 +104,6 @@ final class Command extends BaseCommand
                 }
             } catch (\JsonException $e) {
                 $this->getIO()->writeError('<warning>config-sync.json is invalid – ' . $e->getMessage() . '</warning>');
-                // fwrite(STDERR, "Warning: config-sync.json is invalid – {$e->getMessage()}\n");
             }
         }
 
@@ -129,7 +128,7 @@ final class Command extends BaseCommand
      */
     private function packagePath(string $relative): string
     {
-        return realpath(__DIR__ . '/..') . '/' . ltrim($relative, '/');
+        return realpath(__DIR__ . '/../..') . '/' . ltrim($relative, '/');
     }
 
     /**
@@ -142,7 +141,6 @@ final class Command extends BaseCommand
     {
         if (!is_file($stub)) {
             $this->getIO()->writeError('<warning>Stub missing: ' . $stub . '</warning>');
-            // fwrite(STDERR, "Warning: Stub missing: {$stub}\n");
 
             return;
         }
