@@ -7,7 +7,9 @@ $finder = Finder::create()
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ])
-    ->name('*.php');
+    ->name('*.php')
+    ->notName(['*.blade.php', '_*'])
+    ->exclude('Containers/Vendor');
 
 return (new PhpCsFixer\Config())
     ->setCacheFile(__DIR__ . '/temp/.php-cs-fixer.cache')
