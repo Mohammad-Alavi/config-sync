@@ -1,6 +1,6 @@
 {
     "name": "mohammad-alavi/config-sync",
-    "type": "library",
+    "type": "composer-plugin",
     "bin": ["bin/config-sync"],
     "license": "MIT",
     "authors": [
@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": "^8.2",
+        "composer-plugin-api": "^2.0",
         "composer-runtime-api": "^2.2.2",
         "symfony/filesystem": "^7.0"
     },
@@ -32,6 +33,9 @@
         "roave/security-advisories": "dev-latest",
         "thecodingmachine/phpstan-safe-rule": "^1.4",
         "vimeo/psalm": "^6.0.0"
+    },
+    "extra": {
+        "class": "MohammadAlavi\\ConfigSync\\Plugin"
     },
     "autoload": {
         "psr-4": {

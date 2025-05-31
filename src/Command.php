@@ -4,17 +4,19 @@ namespace MohammadAlavi\ConfigSync;
 
 use Composer\Command\BaseCommand;
 use Composer\InstalledVersions;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Composer plugin that keeps project‑wide tooling configs in sync.
  */
-final class ConfigSync extends BaseCommand
+final class Command extends BaseCommand
 {
     private array $config;
 
-    public function __construct(
-    ) {
+    public function __construct()
+    {
         parent::__construct();
         $configPath = __DIR__ . '/config-sync.json'; // Adjust path accordingly
         if (!file_exists($configPath)) {
@@ -23,6 +25,19 @@ final class ConfigSync extends BaseCommand
 
         $json = file_get_contents($configPath);
         $this->config = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    protected function configure(): void
+    {
+        $this->setName('config-sync:sync')
+            ->setDescription('Sync project configuration files with the stubs provided by the package.');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->sync();
+
+        return 0;
     }
 
     /**
@@ -88,7 +103,8 @@ final class ConfigSync extends BaseCommand
                     $this->config = array_replace_recursive($this->config, $user);
                 }
             } catch (\JsonException $e) {
-                fwrite(STDERR, "Warning: config-sync.json is invalid – {$e->getMessage()}\n");
+                $this->getIO()->writeError('<warning>config-sync.json is invalid – ' . $e->getMessage() . '</warning>');
+                // fwrite(STDERR, "Warning: config-sync.json is invalid – {$e->getMessage()}\n");
             }
         }
 
@@ -125,7 +141,8 @@ final class ConfigSync extends BaseCommand
     private function copyStub(string $stub, string $dest, array $vars, Filesystem $fs): void
     {
         if (!is_file($stub)) {
-            fwrite(STDERR, "Warning: Stub missing: {$stub}\n");
+            $this->getIO()->writeError('<warning>Stub missing: ' . $stub . '</warning>');
+            // fwrite(STDERR, "Warning: Stub missing: {$stub}\n");
 
             return;
         }

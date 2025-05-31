@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-use MohammadAlavi\ConfigSync\ConfigSync;
+use MohammadAlavi\ConfigSync\Command;
 
 include $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
 
@@ -13,7 +13,7 @@ $command = $argv[1] ?? null;
 switch ($command) {
     case 'sync':
         // Instantiate your ConfigSyncPlugin or SyncManager
-        $syncer = new ConfigSync();
+        $syncer = new Command();
         $syncer->sync();
         break;
 
