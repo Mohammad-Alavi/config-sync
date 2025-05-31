@@ -23,8 +23,14 @@ final class Sync extends BaseCommand
             throw new \RuntimeException('config-sync.json file not found.');
         }
 
-        $json = file_get_contents($configPath);
-        $this->config = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        $this->config = json_decode(
+            file_get_contents(
+                $configPath,
+            ),
+            true,
+            512,
+            JSON_THROW_ON_ERROR,
+        );
     }
 
     protected function configure(): void
@@ -159,9 +165,7 @@ final class Sync extends BaseCommand
         $content = file_get_contents($stubPath);
 
         foreach ($vars as $key => $value) {
-            if ('_SKIP_' !== $value) {
-                $content = str_replace('{{' . strtoupper($key) . '}}', $value, $content);
-            }
+            $content = str_replace('{{' . strtoupper($key) . '}}', $value, $content);
         }
 
         return $content;
