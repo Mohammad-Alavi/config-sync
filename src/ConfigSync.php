@@ -2,6 +2,7 @@
 
 namespace MohammadAlavi\ConfigSync;
 
+use Composer\Command\BaseCommand;
 use Composer\Composer;
 use Composer\InstalledVersions;
 use Symfony\Component\Filesystem\Filesystem;
@@ -9,13 +10,13 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Composer plugin that keeps project‑wide tooling configs in sync.
  */
-final class ConfigSync
+final class ConfigSync extends BaseCommand
 {
     private array $config;
 
     public function __construct(
-        private Composer $composer,
     ) {
+        parent::__construct();
         $configPath = __DIR__ . '/config-sync.json'; // Adjust path accordingly
         if (!file_exists($configPath)) {
             throw new \RuntimeException('config-sync.json file not found.');
@@ -23,11 +24,6 @@ final class ConfigSync
 
         $json = file_get_contents($configPath);
         $this->config = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-    }
-
-    public function activate(Composer $composer): void
-    {
-        $this->composer = $composer;
     }
 
     /**
@@ -103,7 +99,7 @@ final class ConfigSync
     private function hasComposerPkg(string $name): bool
     {
         return InstalledVersions::isInstalled($name)
-            || isset($this->composer->getPackage()->getRequires()[$name]);
+            || isset($this->requireComposer()->getPackage()->getRequires()[$name]);
     }
 
     /** Helper for stubs/ directory. */
