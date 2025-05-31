@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7d59edcb2244bcf275cb19c9fbc8bf50",
+    "content-hash": "fba6b658af6494823590db66ca024995",
     "packages": [
         {
             "name": "symfony/filesystem",
@@ -10269,7 +10269,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "phpmd/phpmd": 0,
         "roave/security-advisories": 20
