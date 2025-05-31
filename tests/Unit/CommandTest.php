@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 use Composer\Composer;
 use Composer\Package\PackageInterface;
-use MohammadAlavi\ConfigSync\Command;
+use MohammadAlavi\ConfigSync\Commands\Sync;
 use Symfony\Component\Filesystem\Filesystem;
 
-describe(basename(Command::class), function (): void {
+describe(basename(Sync::class), function (): void {
     /**
      * Helper to activate the plugin with mocked Composer + IO.
      */
-    function createPlugin(Mockery\MockInterface $composer): Command
+    function createPlugin(Mockery\MockInterface $composer): Sync
     {
-        return new Command($composer);
+        return new Sync($composer);
     }
 
     beforeEach(function (): void {
@@ -26,7 +26,7 @@ describe(basename(Command::class), function (): void {
         chdir($this->tmpDir);
 
         // Ensure stub files exist next to the plugin source (src/../stubs)
-        $stubDir = dirname((new ReflectionClass(Command::class))->getFileName(), 2) . '/stubs';
+        $stubDir = dirname((new ReflectionClass(Sync::class))->getFileName(), 2) . '/stubs';
         if (!is_dir($stubDir) && !mkdir($stubDir, 0777, true) && !is_dir($stubDir)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $stubDir));
         }
@@ -88,4 +88,4 @@ describe(basename(Command::class), function (): void {
 
         expect(true)->toBeTrue();
     });
-})->covers(Command::class);
+})->covers(Sync::class);
