@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": "^8.2",
+        "composer-runtime-api": "^2.2.2",
         "symfony/filesystem": "^7.0"
     },
     "require-dev": {
