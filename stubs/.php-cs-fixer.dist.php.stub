@@ -3,14 +3,13 @@
 use PhpCsFixer\Finder;
 
 $finder = Finder::create()
-    ->in([
-        __DIR__ . '/src',
-        __DIR__ . '/tests',
-    ])
-    ->name('*.php');
+    ->in({{PHP_CS_FIXER_IN}})
+    ->name('*.php')
+    ->notName({{PHP_CS_FIXER_NOT_NAME}})
+    ->exclude('Containers/Vendor');
 
 return (new PhpCsFixer\Config())
-    ->setCacheFile({{PHP_CS_FIXER_CACHE_FILE}})
+    ->setCacheFile(__DIR__ . '/temp/.php-cs-fixer.cache')
     ->setRules([
         '@Symfony' => true,
         'concat_space' => ['spacing' => 'one'],
