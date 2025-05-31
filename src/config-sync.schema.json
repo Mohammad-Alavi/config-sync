@@ -5,6 +5,27 @@
     "description": "Defines all overridable values used by the Config‑Sync Composer plugin.",
     "type": "object",
     "properties": {
+        "php_cs_fixer": {
+            "type": "object",
+            "description": "PHP‑CS‑Fixer specific overrides.",
+            "properties": {
+                "in": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of directories to be fixed by PHP‑CS‑Fixer (e.g. [\"src\", \"tests\"])."
+                },
+                "notNames": {
+                    "type": ["array", "string"],
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of file names to be ignored by PHP‑CS‑Fixer (e.g. [\".php-cs-fixer.php\"]). If set to `false`, no files will be ignored."
+                }
+            },
+            "additionalProperties": false
+        },
         "phpunit": {
             "type": "object",
             "description": "PHPUnit‑specific overrides.",
@@ -12,32 +33,6 @@
                 "cache_dir": {
                     "type": "string",
                     "description": "Relative path to the PHPUnit cache directory (e.g. \"temp/phpunit\")."
-                }
-            },
-            "additionalProperties": false
-        },
-        "php_cs_fixer": {
-            "type": "object",
-            "description": "PHP‑CS‑Fixer specific overrides.",
-            "properties": {
-                "cache_file": {
-                    "type": "string",
-                    "description": "Path to the fixer cache file (e.g. \"temp/.php-cs-fixer.cache\")."
-                }
-            },
-            "additionalProperties": false
-        },
-        "paths": {
-            "type": "object",
-            "description": "General paths used by the plugin.",
-            "properties": {
-                "source": {
-                    "type": "string",
-                    "description": "Directory inside the project that contains application source code (e.g. \"src\" or \"app\")."
-                },
-                "stubs": {
-                    "type": "string",
-                    "description": "Directory containing stub templates inside the package (defaults to \"stubs\")."
                 }
             },
             "additionalProperties": false
