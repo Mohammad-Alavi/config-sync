@@ -3,7 +3,6 @@
 namespace MohammadAlavi\ConfigSync;
 
 use Composer\Command\BaseCommand;
-use Composer\Composer;
 use Composer\InstalledVersions;
 use Symfony\Component\Filesystem\Filesystem;
 
