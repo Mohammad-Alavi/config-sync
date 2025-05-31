@@ -1,7 +1,6 @@
 {
     "name": "mohammad-alavi/config-sync",
     "type": "composer-plugin",
-    "bin": ["bin/config-sync"],
     "license": "MIT",
     "authors": [
         {
