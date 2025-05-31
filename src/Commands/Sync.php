@@ -76,8 +76,8 @@ final class Sync extends BaseCommand
         /*  PHPUnit */
         /* ------------------------------------------------------------------ */
         if ($this->hasComposerPkg('phpunit/phpunit')) {
-            $stub = $this->stubPath('phpunit.xml.dist.stub');
-            $dest = $root . '/phpunit.xml.dist';
+            $stub = $this->stubPath('phpunit.xml.stub');
+            $dest = $root . '/phpunit.xml';
 
             $this->copyStub($stub, $dest, [
                 'PHPUNIT_CACHE_DIR' => $config['phpunit']['cache_dir'],
