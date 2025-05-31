@@ -5,7 +5,7 @@
     "description": "Defines all overridable values used by the Config‑Sync Composer plugin.",
     "type": "object",
     "properties": {
-        "php_cs_fixer": {
+        "phpCsFixer": {
             "type": "object",
             "description": "PHP‑CS‑Fixer specific overrides.",
             "properties": {
